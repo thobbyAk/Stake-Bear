@@ -1,4 +1,4 @@
-pragma solidity ^0.8.11; // Designate version of solidity
+pragma solidity ^0.8.4; // Designate version of solidity
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol"; // ERC20 template
 

@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract StakingHousev is Ownable {
+contract StakeHouse is Ownable {
     using SafeERC20 for IERC20; // Wrappers around ERC20 operations that throw on failure
     BearToken public bearToken;
     uint256 private rewardTokensPerBlock; // Number of reward tokens minted per block
@@ -96,11 +96,10 @@ contract StakingHousev is Ownable {
     /**
      * @dev Withdraw all tokens from an existing pool
      */
-    function withdraw(uint256 _poolId) external {
+    function withdraw(uint256 _poolId, uint256 _amount) external {
+        require(_amount > 0, "Withdraw amount can't be zero");
         Pool storage pool = pools[_poolId];
         PoolStaker storage staker = poolStakers[_poolId][msg.sender];
-        uint256 amount = staker.amount;
-        require(amount > 0, "Withdraw amount can't be zero");
 
         // Pay rewards
         harvestRewards(_poolId);
@@ -112,11 +111,11 @@ contract StakingHousev is Ownable {
             REWARDS_PRECISION;
 
         // Update pool
-        pool.tokensStaked = pool.tokensStaked - amount;
+        pool.tokensStaked = pool.tokensStaked - _amount;
 
         // Withdraw tokens
-        emit Withdraw(msg.sender, _poolId, amount);
-        pool.stakeToken.safeTransfer(address(msg.sender), amount);
+        emit Withdraw(msg.sender, _poolId, _amount);
+        pool.stakeToken.safeTransfer(address(msg.sender), _amount);
     }
 
     /**
