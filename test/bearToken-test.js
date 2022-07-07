@@ -1,7 +1,7 @@
 // We import Chai to use its asserting functions here.
 const { expect } = require("chai");
 
-describe("BearTOken Contrract", function () {
+describe("BearToken Contrract", function () {
 	let totalSupply = "10000000000000000000000"; // 10000 * 1e18
 	let Token;
 	let hardhatToken;

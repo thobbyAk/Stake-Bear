@@ -70,11 +70,6 @@ describe("StakeHouse", function () {
 	});
 
 	it("should withdraw an amount", async () => {
-		console.log(
-			"prev balance owner is ",
-			await BearToken.balanceOf(owner.address)
-		);
-
 		await StakeHouse.createPool(BearToken.address);
 
 		const amount = "1000";
@@ -90,8 +85,12 @@ describe("StakeHouse", function () {
 		await StakeHouse.deposit(0, "20", {
 			from: owner.address,
 		});
+		console.log(
+			"prev balance after owner is ",
+			await BearToken.balanceOf(owner.address)
+		);
 
-		let tx = await StakeHouse.withdraw(0, "10", {
+		let tx = await StakeHouse.withdraw(0, "15", {
 			from: owner.address,
 		});
 
@@ -107,6 +106,6 @@ describe("StakeHouse", function () {
 			"new balance owner is ",
 			await BearToken.balanceOf(owner.address)
 		);
-		expect(await BearToken.balanceOf(owner.address)).to.equal("99990");
+		expect(await BearToken.balanceOf(owner.address)).to.equal("100005");
 	});
 });
